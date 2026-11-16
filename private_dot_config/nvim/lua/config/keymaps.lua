@@ -40,7 +40,7 @@ vim.keymap.set("n", "<leader>tt", function()
 	elseif colorscheme == "cyberdream" then
 		require("cyberdream").setup({ transparent = transparency_enabled })
 		vim.cmd.colorscheme("cyberdream")
-	elseif colorscheme == "rose-pine" or colorscheme == "rose-pine-moon" then
+	elseif vim.startswith(colorscheme, "rose-pine") then
 		local rp = require("rose-pine")
 		rp.setup(
 			vim.tbl_extend(
@@ -49,7 +49,7 @@ vim.keymap.set("n", "<leader>tt", function()
 				{ disable_background = transparency_enabled }
 			)
 		)
-		vim.cmd.colorscheme("rose-pine-moon")
+		vim.cmd.colorscheme(colorscheme)
 	else
 		vim.notify("Transparency toggle not supported for " .. colorscheme, vim.log.levels.WARN)
 	end

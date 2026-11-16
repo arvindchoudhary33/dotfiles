@@ -1,10 +1,12 @@
 onboarding = false
 
 [theme]
-name = "gruvbox"
+name = "rose-pine"
 auto_switch = false
 
 [ui]
+# Outer terminal (kitty tab) title: just the workspace name, no hostname
+window_title = "{workspace}"
 pane_borders = "auto"
 pane_outer_borders = false
 pane_gaps = false
