@@ -1,6 +1,8 @@
 return {
   "epwalsh/obsidian.nvim",
   version = "*",
+  -- Skip on machines without the vault (avoids startup errors)
+  cond = vim.fn.isdirectory(vim.fn.expand("~/Documents/obsidian/watermelon")) == 1,
   lazy = true,
   ft = "markdown",
   cmd = { "ObsidianNew", "ObsidianToday", "ObsidianSearch", "ObsidianQuickSwitch", "ObsidianTemplate", "ObsidianBacklinks", "ObsidianLinks" },
