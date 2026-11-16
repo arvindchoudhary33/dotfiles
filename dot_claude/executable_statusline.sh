@@ -27,7 +27,8 @@ elif (( pct >= 50 )); then C=$(rgb "#f6c177")   # gold: getting full
 else                       C=$(rgb "#31748f"); fi # pine: fine
 
 width=10; filled=$(( (pct * width + 50) / 100 )); (( filled > width )) && filled=$width
-bar="${C}$(printf '%*s' "$filled" '' | tr ' ' '█')${MUTED}$(printf '%*s' $(( width - filled )) '' | tr ' ' '░')${R}"
+full=$(printf '%*s' "$filled" ''); empty=$(printf '%*s' $(( width - filled )) '')
+bar="${C}${full// /█}${MUTED}${empty// /░}${R}"
 
 sep=" ${MUTED}│${R} "
 out="${IRIS}${model}${R}${sep}${bar} ${C}${pct}%${R} ${MUTED}($(human "$used")/$(human "$size"))${R}"

@@ -1,0 +1,67 @@
+# Terminal & System
+{{- if eq .chezmoi.os "darwin" }}
+
+## Hardware
+- Machine: MacBook Pro (Apple M2 Pro, Apple Silicon / arm64)
+
+## Software
+- OS: macOS
+- Shell: fish (Homebrew, `/opt/homebrew/bin/fish`)
+- Terminal: kitty
+- Editor: Neovim
+- Package manager: Homebrew (`brew` for formulae, `brew install --cask` for apps)
+
+## System Issues
+- **Always search official sources (Apple support/developer docs, Homebrew docs, upstream docs) before doing anything system-related.** Never guesswork — fetch first.
+- This applies to ALL phases: installation, configuration, AND troubleshooting. If something is not working, fetch the official docs for that tool before attempting any fix. Never rely on training data to diagnose or fix system issues.
+- macOS ships BSD userland tools (`sed`, `grep`, `stat`, etc.), not GNU — check flags before using them.
+- Never randomly delete or add packages — verify what's installed first (`brew list`, `brew uses --installed`), check dependencies, confirm with user before removing anything.
+- Prefer well-maintained, reliable packages over obscure or outdated ones.
+- When upgrading or replacing something, always ask the user if they want to remove/clean up the old one before proceeding.
+- Background services installed via Homebrew are managed with `brew services`, never with `sudo` unless the docs require it.
+{{- else }}
+
+## Hardware
+- Machine: Lenovo ThinkPad T14 Gen 5 (21MDS3PN00)
+- CPU: AMD Ryzen 7 PRO 8840U (16 threads) @ 3.30 GHz
+- GPU: AMD Radeon 780M (integrated)
+- Display: 1920x1200, 14", 60Hz
+- RAM: ~13.3 GiB
+- Disk: btrfs on /
+
+## Software
+- OS: Arch Linux x86_64
+- Kernel: Linux (zen or arch kernel)
+- Shell: fish
+- Terminal: kitty
+- Editor: Neovim
+- WM: Sway 1.11.0 (SwayFX 0.5.3, Wayland)
+- Bar: waybar
+- Audio: PipeWire + WirePlumber (PulseAudio compat layer)
+- AUR helper: yay
+- Package manager: `yay` for AUR, `sudo pacman` for official repos
+
+## System Issues
+- **Always search ArchWiki and official sources before doing anything system-related.** Never guesswork — fetch first.
+- This applies to ALL phases: installation, configuration, AND troubleshooting. If something is not working, fetch the official docs or ArchWiki for that tool before attempting any fix. Never rely on training data to diagnose or fix system issues.
+- For any issue with audio, Bluetooth, WM, GPU, power, etc. on this machine: search ArchWiki + upstream docs before suggesting a fix.
+- When fixing system/WM issues, confirm the current session/WM before doing anything.
+- Never randomly delete or add packages — verify what's installed first, check dependencies, confirm with user before removing anything.
+- Prefer well-maintained, reliable packages over obscure or outdated ones.
+- Always use `-Rns` when removing packages.
+- When upgrading or replacing something, always ask the user if they want to remove/clean up the old one before proceeding.
+- User services (wireplumber, pipewire, etc.) must be managed with `systemctl --user`, never with `sudo systemctl --user`.
+{{- end }}
+
+## MCP Servers
+
+To add an MCP server globally (works every time, writes to ~/.claude.json):
+- HTTP server: `claude mcp add --transport http --scope user <name> <url>`
+- stdio server: `claude mcp add --scope user <name> <command> -- <args>`
+
+Never edit settings.json for MCP servers — always use the CLI command above.
+
+## Git
+- Only allowed git commands: `git diff` and `git status`
+- Never run `git add`, `git commit`, `git push`, `git reset`, `git checkout`, or any destructive/state-changing git command
+- If a task requires committing, tell the user what to run — don't do it

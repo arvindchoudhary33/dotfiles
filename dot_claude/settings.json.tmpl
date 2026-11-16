@@ -1,0 +1,55 @@
+{
+  "model": "sonnet",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "^(startup|resume|clear|compact|fork)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '{{ .chezmoi.homeDir }}/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh",
+    "padding": 0
+  },
+  "enabledPlugins": {
+    "vercel@claude-plugins-official": false
+  },
+  "extraKnownMarketplaces": {
+    "dodopayments": {
+      "source": {
+        "source": "github",
+        "repo": "dodopayments/dodo-agent-plugin"
+      }
+    }
+  },
+  "effortLevel": "medium",
+  "askUserQuestionTimeout": "60s",
+  "tui": "fullscreen",
+  "editorMode": "vim",
+  "mcpServers": {
+    "agent-bus": {
+      "type": "http",
+      "url": "http://127.0.0.1:4001/mcp"
+    },
+    "linear": {
+      "type": "http",
+      "url": "https://mcp.linear.app/mcp"
+    },
+    "fetch": {
+      "command": "{{ if eq .chezmoi.os "darwin" }}/opt/homebrew/bin/uvx{{ else }}{{ .chezmoi.homeDir }}/.local/bin/uvx{{ end }}",
+      "args": [
+        "--with",
+        "mcp==1.2.0",
+        "mcp-server-fetch"
+      ]
+    }
+  }
+}
