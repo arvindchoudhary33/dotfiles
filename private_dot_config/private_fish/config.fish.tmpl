@@ -1,4 +1,8 @@
 # ~/.config/fish/config.fish
+{{- if eq .chezmoi.os "darwin" }}
+
+/opt/homebrew/bin/brew shellenv fish | source
+{{- end }}
 
 set -g APP_PROD_IP {{ .appProdIp }}
 set -g TEST_DEVICE_IP {{ .testDeviceIp }}

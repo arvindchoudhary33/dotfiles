@@ -1,4 +1,4 @@
-set-option -g default-shell /usr/bin/fish
+set-option -g default-shell {{ if eq .chezmoi.os "darwin" }}/opt/homebrew/bin/fish{{ else }}/usr/bin/fish{{ end }}
 
 unbind C-b
 set -g prefix C-Space
@@ -32,7 +32,7 @@ bind -r D neww -c "#{pane_current_path}" "[[ -e TODO.md ]] && nvim TODO.md || nv
 # Copy mode (vi)
 set-window-option -g mode-keys vi
 bind -T copy-mode-vi v send-keys -X begin-selection
-bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "wl-copy"
+bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "{{ if eq .chezmoi.os "darwin" }}pbcopy{{ else }}wl-copy{{ end }}"
 
 # Mouse support
 set -g mouse on

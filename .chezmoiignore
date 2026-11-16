@@ -4,7 +4,9 @@
 .config/waybar
 .config/dunst
 .config/rofi
-.config/theme
+.config/theme/*.ini
+.config/theme/.current/sway
+.config/theme/.current/waybar.css
 .config/mimeapps.list
 .local/bin/apply-theme
 .local/bin/battery-warn.sh

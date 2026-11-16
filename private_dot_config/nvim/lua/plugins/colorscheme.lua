@@ -1,6 +1,7 @@
 return {
 	{
-		dir = "/home/watermelon/projects/xcodium.nvim",
+		dir = vim.fn.expand("~/projects/xcodium.nvim"),
+		cond = vim.fn.isdirectory(vim.fn.expand("~/projects/xcodium.nvim")) == 1,
 		name = "xcodium",
 		lazy = false,
 		priority = 1000,
