@@ -39,6 +39,8 @@ cask "firefox"
 cask "font-jetbrains-mono-nerd-font"
 # GPU-based terminal emulator
 cask "kitty"
+# Keyboard customizer (Caps Lock -> Ctrl; config is tracked in chezmoi)
+cask "karabiner-elements"
 # Instant messaging application focusing on security
 cask "signal"
 npm "@anthropic-ai/claude-code"

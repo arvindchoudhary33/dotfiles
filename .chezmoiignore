@@ -3,6 +3,8 @@ Brewfile
 
 {{- if ne .chezmoi.os "linux" }}
 .bashrc
+.claude/obsidian-logger.md
+.claude/agents/obsidian-logger.md
 .config/sway
 .config/waybar
 .config/dunst
