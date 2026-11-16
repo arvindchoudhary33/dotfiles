@@ -24,6 +24,8 @@ brew "node"
 brew "pnpm"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# Python package and project manager (provides uvx, used by the fetch MCP server)
+brew "uv"
 # Cross-shell prompt for astronauts
 brew "starship"
 # Terminal multiplexer
