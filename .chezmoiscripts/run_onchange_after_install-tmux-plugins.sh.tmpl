@@ -1,0 +1,8 @@
+#!/bin/sh
+# Install tmux plugins listed in .tmux.conf (no tmux session needed).
+# Re-runs whenever the @plugin list changes.
+# plugins hash: {{ regexFindAll "(?m)^set -g @plugin .*$" (include "dot_tmux.conf.tmpl") -1 | join "\n" | sha256sum }}
+set -e
+[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+command -v tmux >/dev/null 2>&1 || { echo "tmux is not installed: install it, then run 'chezmoi apply' again" >&2; exit 1; }
+"$HOME/.tmux/plugins/tpm/bin/install_plugins"
