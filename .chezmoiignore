@@ -14,3 +14,6 @@
 .local/bin/screenshot
 .local/bin/toggle-night-mode
 {{- end }}
+{{- if ne .chezmoi.os "darwin" }}
+.config/karabiner
+{{- end }}
