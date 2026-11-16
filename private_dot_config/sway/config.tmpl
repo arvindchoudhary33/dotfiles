@@ -48,7 +48,7 @@ exec_always pkill -x dunst; dunst &
 exec kitty --single-instance
 exec nm-applet --indicator
 exec blueman-applet
-exec_always pkill swaybg; swaybg -i "/home/watermelon/Pictures/Wallapers/starwars_3.jpeg" -m fill
+exec_always pkill swaybg; swaybg -i "{{ .chezmoi.homeDir }}/Pictures/Wallapers/starwars_3.jpeg" -m fill
 
 exec_always pkill -x swayidle; swayidle -w \
     timeout 1200 'swaylock -f -c 000000' \
@@ -75,8 +75,8 @@ bindsym $mod+Return exec kitty --single-instance
 bindsym $mod+space exec rofi -show drun
 bindsym $mod+Shift+q kill
 # Screenshots
-bindsym Mod4+s       exec /home/watermelon/.local/bin/screenshot
-bindsym Mod4+Shift+s exec /home/watermelon/.local/bin/screenshot region
+bindsym Mod4+s       exec {{ .chezmoi.homeDir }}/.local/bin/screenshot
+bindsym Mod4+Shift+s exec {{ .chezmoi.homeDir }}/.local/bin/screenshot region
 
 bindsym $mod+h focus left
 bindsym $mod+j focus down

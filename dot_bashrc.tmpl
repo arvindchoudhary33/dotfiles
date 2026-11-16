@@ -10,5 +10,5 @@ alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
 
 # Added by flyctl installer
-export FLYCTL_INSTALL="/home/watermelon/.fly"
+export FLYCTL_INSTALL="{{ .chezmoi.homeDir }}/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
