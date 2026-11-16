@@ -1,0 +1,17 @@
+#!/bin/sh
+# Enable the context-usage status line in Claude Code (~/.claude/statusline.sh).
+# Merges one key into ~/.claude/settings.json instead of managing the whole file,
+# because Claude Code rewrites that file itself (e.g. via /config).
+set -e
+[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+if ! command -v jq >/dev/null 2>&1; then
+    echo "jq is not installed: install it, then run 'chezmoi apply' again" >&2
+    exit 1
+fi
+f="$HOME/.claude/settings.json"
+mkdir -p "$HOME/.claude"
+[ -s "$f" ] || echo '{}' > "$f"
+tmp=$(mktemp)
+jq '.statusLine = {"type": "command", "command": "~/.claude/statusline.sh", "padding": 0}' "$f" > "$tmp"
+cat "$tmp" > "$f"   # keep the original file's permissions
+rm -f "$tmp"
