@@ -62,7 +62,7 @@ function fish_user_key_bindings
     # Space+T (vi normal mode): fuzzy tmux session switcher
     bind -M default ' t' __tmux_session_switch
 
-    # Vi mode yank/paste with system clipboard (wayland)
+    # Vi mode yank/paste with system clipboard (pbcopy on macOS, wl-copy on Wayland)
     bind -M visual y 'fish_clipboard_copy; commandline -f end-selection'
     bind -M default p fish_clipboard_paste
     bind -M insert \cv fish_clipboard_paste
