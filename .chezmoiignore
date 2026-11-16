@@ -1,3 +1,6 @@
+# Repo-only files (not written to $HOME)
+Brewfile
+
 {{- if ne .chezmoi.os "linux" }}
 .bashrc
 .config/sway
