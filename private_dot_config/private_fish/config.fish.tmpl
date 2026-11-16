@@ -96,17 +96,19 @@ fish_add_path "$FLYCTL_INSTALL/bin"
 # >>> conda initialize >>>
 if test -f "{{ .chezmoi.homeDir }}/miniconda3/etc/fish/conf.d/conda.fish"
     source "{{ .chezmoi.homeDir }}/miniconda3/etc/fish/conf.d/conda.fish"
-else
+else if test -d "{{ .chezmoi.homeDir }}/miniconda3/bin"
     set -x PATH {{ .chezmoi.homeDir }}/miniconda3/bin $PATH
 end
 # <<< conda initialize <<<
 
-{{- if eq .chezmoi.os "linux" }}
 
 # pnpm
+{{- if eq .chezmoi.os "darwin" }}
+set -gx PNPM_HOME "{{ .chezmoi.homeDir }}/Library/pnpm"
+{{- else }}
 set -gx PNPM_HOME "{{ .chezmoi.homeDir }}/.local/share/pnpm"
+{{- end }}
 if not string match -q -- "$PNPM_HOME/bin" $PATH
     set -gx PATH "$PNPM_HOME/bin" $PATH
 end
 # pnpm end
-{{- end }}
