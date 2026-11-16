@@ -27,7 +27,7 @@ bind -r l select-pane -R
 bind -r ^ last-window
 
 # Open TODO in nvim
-bind -r D neww -c "#{pane_current_path}" "[[ -e TODO.md ]] && nvim TODO.md || nvim ~/.dotfiles/personal/todo.md"
+bind -r D neww -c "#{pane_current_path}" "sh -c 'if [ -e TODO.md ]; then nvim TODO.md; else mkdir -p ~/notes && nvim ~/notes/todo.md; fi'"
 
 # Copy mode (vi)
 set-window-option -g mode-keys vi
