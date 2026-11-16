@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e
+
+DIR="$HOME/Pictures/Screenshots"
+FILE="$DIR/$(date +%Y-%m-%d_%H-%M-%S).png"
+
+mkdir -p "$DIR"
+
+if [ "$1" = "region" ]; then
+    grim -g "$(slurp)" "$FILE"
+else
+    FOCUSED_OUTPUT=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
+    grim -o "$FOCUSED_OUTPUT" "$FILE"
+fi
+
+satty \
+    --filename "$FILE" \
+    --output-filename "$FILE" \
+    --copy-command "wl-copy" \
+    --early-exit save \
+    --actions-on-enter save-to-clipboard,save-to-file,exit \
+    --initial-tool highlight \
+    --floating-hack
+
+notify-send -i "$FILE" "Screenshot saved" "$(basename "$FILE")"

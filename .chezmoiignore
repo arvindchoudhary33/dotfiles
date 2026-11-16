@@ -1,0 +1,14 @@
+{{- if ne .chezmoi.os "linux" }}
+.bashrc
+.config/sway
+.config/waybar
+.config/dunst
+.config/rofi
+.config/theme
+.config/mimeapps.list
+.local/bin/apply-theme
+.local/bin/battery-warn.sh
+.local/bin/lock-screen
+.local/bin/screenshot
+.local/bin/toggle-night-mode
+{{- end }}

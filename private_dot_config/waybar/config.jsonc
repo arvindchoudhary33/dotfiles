@@ -1,0 +1,62 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 24,
+  "modules-left": ["sway/workspaces"],
+  "modules-center": ["clock"],
+  "modules-right": ["memory", "network", "pulseaudio", "battery"],
+
+  "sway/workspaces": {
+    "format": "{name}",
+    "disable-scroll": true,
+    "all-outputs": false,
+    "persistent-workspaces": {
+      "1": [], "2": [], "3": [], "4": [], "5": [],
+      "6": [], "7": [], "8": [], "9": [], "10": []
+    }
+  },
+
+  "clock": {
+    "interval": 5,
+    "format": "󰅐 {:%H:%M}",
+    "format-alt": "󰅐 {:%H:%M  %d %b}",
+    "tooltip": false
+  },
+
+  "memory": {
+    "interval": 5,
+    "format": "󰍛 {percentage}%",
+    "tooltip": false
+  },
+
+  "network": {
+    "interval": 10,
+    "format-wifi": "󰖩 {essid}",
+    "format-disconnected": "󰤭 disconnected",
+    "format-ethernet": "󰈀 {ifname}",
+    "tooltip": false
+  },
+
+  "pulseaudio": {
+    "format": "󰕾 {volume}%",
+    "format-muted": "󰝟 muted",
+    "on-click": "pavucontrol",
+    "tooltip": false
+  },
+
+  "battery": {
+    "bat": "BAT0",
+    "adapter": "AC",
+    "interval": 30,
+    "full-at": 98,
+    "states": {
+      "low": 20
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": "⚡ {capacity}%",
+    "format-full": "󰁹 full",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "format-low": "󰂃 {capacity}%",
+    "tooltip": false
+  }
+}

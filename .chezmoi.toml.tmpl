@@ -1,0 +1,8 @@
+{{- $appProdIp := promptStringOnce . "appProdIp" "App prod server IP" -}}
+{{- $testDeviceIp := promptStringOnce . "testDeviceIp" "Test device IP" -}}
+{{- $collectionProdIp := promptStringOnce . "collectionProdIp" "Collection prod server IP" -}}
+
+[data]
+    appProdIp = {{ $appProdIp | quote }}
+    testDeviceIp = {{ $testDeviceIp | quote }}
+    collectionProdIp = {{ $collectionProdIp | quote }}

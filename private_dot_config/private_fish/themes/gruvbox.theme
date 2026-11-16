@@ -1,0 +1,13 @@
+fish_color_normal ebdbb2
+fish_color_command b8bb26
+fish_color_quote d79921
+fish_color_redirection d3869b
+fish_color_end fbf1c7
+fish_color_error fb4934
+fish_color_param 83a598
+fish_color_comment 928374
+fish_color_selection white --bold --background=brblack
+fish_color_search_match bryellow --background=brblack
+fish_color_operator 8ec07c
+fish_color_escape fe8019
+fish_color_cwd b8bb26

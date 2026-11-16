@@ -1,0 +1,80 @@
+@import "/home/watermelon/.config/theme/.current/waybar.css";
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 10px;
+    font-weight: normal;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+}
+
+window#waybar {
+    background-color: @bg;
+    color: @fg;
+}
+
+#workspaces {
+    padding-left: 4px;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    color: @muted;
+    background: transparent;
+}
+
+#workspaces button.focused {
+    color: @fg;
+    background-color: @overlay;
+}
+
+#workspaces button.urgent {
+    color: @love;
+}
+
+#clock {
+    color: @fg;
+}
+
+#memory {
+    color: @iris;
+}
+
+#network {
+    color: @foam;
+}
+
+#network.disconnected {
+    color: @muted;
+}
+
+#pulseaudio {
+    color: @gold;
+}
+
+#pulseaudio.muted {
+    color: @muted;
+}
+
+#battery {
+    color: @foam;
+}
+
+#battery.charging {
+    color: @gold;
+}
+
+#battery.low:not(.charging) {
+    color: @love;
+}
+
+#clock,
+#memory,
+#network,
+#pulseaudio,
+#battery {
+    padding: 0 8px;
+    border-left: 1px solid @overlay;
+}

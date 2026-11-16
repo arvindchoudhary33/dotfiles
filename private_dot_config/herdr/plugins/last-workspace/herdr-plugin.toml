@@ -1,0 +1,19 @@
+id = "local.last-workspace"
+name = "Last Workspace"
+version = "0.1.0"
+min_herdr_version = "0.9.0"
+description = "Toggle to the previously focused workspace"
+platforms = ["linux"]
+
+[[startup]]
+command = ["bash", "last-workspace.sh", "track"]
+
+[[events]]
+on = "workspace.focused"
+command = ["bash", "last-workspace.sh", "track"]
+
+[[actions]]
+id = "toggle"
+title = "Go to last workspace"
+contexts = ["workspace"]
+command = ["bash", "last-workspace.sh", "toggle"]

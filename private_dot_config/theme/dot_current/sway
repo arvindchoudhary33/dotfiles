@@ -1,0 +1,12 @@
+set $color_bg      #282828
+set $color_fg      #ebdbb2
+set $color_overlay #504945
+set $color_muted   #928374
+set $color_love    #fb4934
+set $color_foam    #b8bb26
+set $color_iris    #fe8019
+
+client.focused          #5a4f1a $color_bg $color_fg #5a4f1a #5a4f1a
+client.unfocused        #3c3836 $color_bg $color_muted #3c3836 #3c3836
+client.focused_inactive #3c3836 $color_bg $color_muted #3c3836 #3c3836
+client.urgent           $color_love $color_bg $color_fg $color_love $color_love

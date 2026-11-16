@@ -1,0 +1,194 @@
+#!/usr/bin/env bash
+# Usage: apply-theme [theme-name]
+# Default theme: rose-pine-moon
+# Theme files live in ~/.config/theme/<name>.ini
+
+THEME="${1:-rose-pine-moon}"
+THEME_DIR="$HOME/.config/theme"
+THEME_FILE="$THEME_DIR/$THEME.ini"
+CURRENT_DIR="$THEME_DIR/.current"
+
+if [[ ! -f "$THEME_FILE" ]]; then
+    echo "Error: theme file not found: $THEME_FILE"
+    exit 1
+fi
+
+# Parse a color value from the ini file
+color() {
+    grep -E "^\s*$1\s*=" "$THEME_FILE" | head -1 | awk -F'=' '{print $2}' | tr -d ' '
+}
+
+bg=$(color bg)
+surface=$(color surface)
+overlay=$(color overlay)
+muted=$(color muted)
+fg=$(color fg)
+love=$(color love)
+gold=$(color gold)
+rose=$(color rose)
+foam=$(color foam)
+iris=$(color iris)
+pine=$(color pine)
+
+mkdir -p "$CURRENT_DIR"
+
+# ── Waybar ───────────────────────────────────────────────────────────────────
+cat > "$CURRENT_DIR/waybar.css" << EOF
+@define-color bg      $bg;
+@define-color fg      $fg;
+@define-color surface $surface;
+@define-color overlay $overlay;
+@define-color muted   $muted;
+@define-color love    $love;
+@define-color gold    $gold;
+@define-color foam    $foam;
+@define-color iris    $iris;
+@define-color rose    $rose;
+EOF
+
+# ── Sway ─────────────────────────────────────────────────────────────────────
+cat > "$CURRENT_DIR/sway" << EOF
+set \$color_bg      $bg
+set \$color_fg      $fg
+set \$color_overlay $overlay
+set \$color_muted   $muted
+set \$color_love    $love
+set \$color_foam    $foam
+set \$color_iris    $iris
+
+client.focused          \$color_iris    \$color_bg \$color_fg   \$color_foam    \$color_iris
+client.unfocused        \$color_overlay \$color_bg \$color_muted \$color_overlay \$color_overlay
+client.focused_inactive \$color_overlay \$color_bg \$color_muted \$color_overlay \$color_overlay
+client.urgent           \$color_love    \$color_bg \$color_fg   \$color_love    \$color_love
+EOF
+
+# ── Tmux ─────────────────────────────────────────────────────────────────────
+cat > "$CURRENT_DIR/tmux.conf" << EOF
+set -g status-style "bg=$bg fg=$fg"
+set -g status-left "#[bg=$iris,fg=$bg,bold] tmux #[bg=$bg,fg=$overlay]│ #[fg=$iris,bold] #S #[fg=$overlay]│ "
+set -g status-right "#[fg=$muted]%H:%M #[fg=$overlay]│ #[fg=$foam]#H "
+set -g window-status-format "#[fg=$muted] #I:#W "
+set -g window-status-current-format "#[fg=$gold,bold] #I:#W "
+set -g pane-border-style "fg=$overlay"
+set -g pane-active-border-style "fg=$iris"
+set -g message-style "bg=$overlay fg=$fg"
+EOF
+
+# ── Starship ─────────────────────────────────────────────────────────────────
+awk \
+    -v bg="$bg" \
+    -v fg="$fg" \
+    -v muted="$muted" \
+    -v love="$love" \
+    -v gold="$gold" \
+    -v foam="$foam" \
+    -v iris="$iris" \
+    -v pine="$pine" \
+'
+/# THEME:START/ {
+    print
+    print ""
+    print "[username]"
+    print "style_user = \"fg:" iris " bold\""
+    print "format = \"🧸 [$user]($style) \""
+    print "show_always = true"
+    print ""
+    print "[directory]"
+    print "style = \"fg:" foam " bold\""
+    print "format = \"in [$path]($style) \""
+    print "truncation_length = 3"
+    print ""
+    print "[git_branch]"
+    print "symbol = \" \""
+    print "style = \"fg:" gold "\""
+    print "format = \"on [$symbol$branch]($style) \""
+    print ""
+    print "[git_status]"
+    print "style = \"fg:" love "\""
+    print ""
+    print "[nodejs]"
+    print "symbol = \" \""
+    print "style = \"fg:" pine "\""
+    print "format = \"via [$symbol($version)]($style) \""
+    print ""
+    print "[time]"
+    print "disabled = false"
+    print "time_format = \"%R\""
+    print "style = \"fg:" muted "\""
+    print "format = \"at [$time]($style) \""
+    print ""
+    print "[line_break]"
+    print "disabled = false"
+    print ""
+    print "[character]"
+    print "success_symbol = \"[» ](bold " foam ")\""
+    print "error_symbol = \"[» ](bold " love ")\""
+    print ""
+    print "vimcmd_symbol = \"[» ](bold " iris ")\""
+    print "vimcmd_replace_one_symbol = \"[» ](bold " love ")\""
+    print "vimcmd_replace_symbol = \"[» ](bold " love ")\""
+    print "vimcmd_visual_symbol = \"[» ](bold " gold ")\""
+    print ""
+    print "[os]"
+    print "disabled = true"
+    skip=1
+    next
+}
+/# THEME:END/ { skip=0; print; next }
+!skip { print }
+' "$HOME/.config/starship.toml" > /tmp/starship.tmp \
+    && mv /tmp/starship.tmp "$HOME/.config/starship.toml"
+
+# ── Dunst ─────────────────────────────────────────────────────────────────────
+awk \
+    -v bg="$surface" \
+    -v fg="$fg" \
+    -v muted="$muted" \
+    -v overlay="$overlay" \
+    -v love="$love" \
+'
+/# THEME:START/ {
+    print
+    print ""
+    print "[urgency_low]"
+    print "    background = \"" bg "\""
+    print "    foreground = \"" muted "\""
+    print "    frame_color = \"" overlay "\""
+    print "    timeout = 4"
+    print ""
+    print "[urgency_normal]"
+    print "    background = \"" bg "\""
+    print "    foreground = \"" fg "\""
+    print "    frame_color = \"" overlay "\""
+    print "    timeout = 6"
+    print "    override_pause_level = 30"
+    print ""
+    print "[urgency_critical]"
+    print "    background = \"" bg "\""
+    print "    foreground = \"" love "\""
+    print "    frame_color = \"" love "\""
+    print "    timeout = 0"
+    print "    override_pause_level = 60"
+    print ""
+    skip=1
+    next
+}
+/# THEME:END/ { skip=0; print; next }
+!skip { print }
+' "$HOME/.config/dunst/dunstrc" > /tmp/dunstrc.tmp \
+    && mv /tmp/dunstrc.tmp "$HOME/.config/dunst/dunstrc"
+
+# ── Reload apps ───────────────────────────────────────────────────────────────
+if swaymsg -t get_version > /dev/null 2>&1; then
+    swaymsg reload > /dev/null 2>&1
+    killall waybar 2>/dev/null; waybar &
+    pkill dunst 2>/dev/null; sleep 0.2; dunst &
+fi
+tmux source-file "$HOME/.tmux.conf" 2>/dev/null || true
+
+# ── Sync chezmoi source ──────────────────────────────────────────────────────
+if command -v chezmoi > /dev/null; then
+    chezmoi re-add "$CURRENT_DIR" "$HOME/.config/starship.toml" "$HOME/.config/dunst/dunstrc"
+fi
+
+echo "✓ Theme '$THEME' applied"

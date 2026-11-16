@@ -1,0 +1,161 @@
+set $mod Mod1
+
+xwayland force
+
+font pango:JetBrainsMono Nerd Font 11px
+
+include ~/.config/theme/.current/sway
+
+for_window [class="^.*"] border pixel 2
+for_window [app_id=".*"] border pixel 2
+
+# Inhibit idle when apps are fullscreen or playing media
+for_window [app_id="firefox"] inhibit_idle fullscreen
+for_window [class="firefox"] inhibit_idle fullscreen
+for_window [app_id="librewolf"] inhibit_idle fullscreen
+for_window [app_id="google-chrome"] inhibit_idle fullscreen
+for_window [class="google-chrome"] inhibit_idle fullscreen
+for_window [app_id="mpv"] inhibit_idle visible
+for_window [app_id="satty"] floating enable, resize set 1200 800
+
+# Monitor layout: external monitor on top, laptop below
+output DP-1 position 0 0
+output eDP-1 position 0 1080
+
+# Workspace assignments
+workspace 1 output eDP-1
+workspace 2 output eDP-1
+workspace 3 output eDP-1
+workspace 4 output eDP-1
+workspace 5 output eDP-1
+workspace 6 output DP-1
+workspace 7 output DP-1
+workspace 8 output DP-1
+workspace 9 output DP-1
+workspace 10 output DP-1
+
+gaps inner 4
+gaps outer 4
+exec_always swaymsg gaps inner all set 4
+exec_always swaymsg gaps outer all set 4
+
+floating_modifier $mod
+
+exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
+exec systemctl --user import-environment WAYLAND_DISPLAY DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec_always pkill -x dunst; dunst &
+exec kitty --single-instance
+exec nm-applet --indicator
+exec blueman-applet
+exec_always pkill swaybg; swaybg -i "/home/watermelon/Pictures/Wallapers/starwars_3.jpeg" -m fill
+
+exec_always pkill -x swayidle; swayidle -w \
+    timeout 1200 'swaylock -f -c 000000' \
+    timeout 1500 'swaymsg "output * power off"' \
+    resume 'swaymsg "output * power on"' \
+    before-sleep 'swaylock -f -c 000000'
+
+input type:keyboard {
+    xkb_options ctrl:nocaps
+}
+
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+    dwt enabled
+}
+
+exec_always sh -c 'sleep 0.5; killall waybar 2>/dev/null; waybar'
+
+bindsym $mod+x exec ~/.local/bin/lock-screen
+bindsym $mod+n exec ~/.local/bin/toggle-night-mode
+
+bindsym $mod+Return exec kitty --single-instance
+bindsym $mod+space exec rofi -show drun
+bindsym $mod+Shift+q kill
+# Screenshots
+bindsym Mod4+s       exec /home/watermelon/.local/bin/screenshot
+bindsym Mod4+Shift+s exec /home/watermelon/.local/bin/screenshot region
+
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+z split h
+bindsym $mod+v split v
+bindsym $mod+f fullscreen toggle
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+a focus parent
+
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+bindsym $mod+m move workspace to output left
+bindsym $mod+Tab workspace back_and_forth
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r reload
+bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit sway?' -b 'Yes, exit' 'swaymsg exit'
+bindsym $mod+Shift+period exec systemctl suspend
+
+mode "resize" {
+    bindsym h resize shrink width  10 px or 10 ppt
+    bindsym j resize grow   height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow   width  10 px or 10 ppt
+
+    bindsym Left  resize shrink width  10 px or 10 ppt
+    bindsym Down  resize grow   height 10 px or 10 ppt
+    bindsym Up    resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow   width  10 px or 10 ppt
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+bindsym XF86AudioRaiseVolume exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute        exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+
+bindsym XF86MonBrightnessUp   exec brightnessctl set +10%
+bindsym XF86MonBrightnessDown exec brightnessctl set 10%-

@@ -1,0 +1,16 @@
+#battery.charging {
+    color: #9ece6a;
+}
+
+#battery.warning {
+    color: #e0af68;
+}
+
+#battery.critical:not(.charging) {
+    color: #f7768e;
+    animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+    to { opacity: 0.3; }
+}

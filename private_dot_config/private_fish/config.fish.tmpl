@@ -1,0 +1,108 @@
+# ~/.config/fish/config.fish
+
+set -g APP_PROD_IP {{ .appProdIp }}
+set -g TEST_DEVICE_IP {{ .testDeviceIp }}
+set -g COLLECTION_PROD_IP {{ .collectionProdIp }}
+
+alias print-app-ip="echo $APP_PROD_IP"
+alias print-test-ip="echo $TEST_DEVICE_IP"
+alias print-collection-ip="echo $COLLECTION_PROD_IP"
+fish_add_path ~/.local/bin
+
+if status is-interactive
+    set -g fish_key_bindings fish_vi_key_bindings
+    starship init fish | source
+
+    alias l='ls -lah'
+    alias cl='clear'
+    alias v='nvim'
+    alias vi='nvim'
+    alias vim='nvim'
+    alias neovim='nvim'
+    alias g='git'
+    alias app-prod="ssh ubuntu@$APP_PROD_IP"
+    alias test-device="ssh ubuntu@$TEST_DEVICE_IP"
+    alias collection-prod="ssh ubuntu@$COLLECTION_PROD_IP"
+{{- if eq .chezmoi.os "linux" }}
+    alias restart-wifi='sudo modprobe -r ath11k_pci && sleep 3 && sudo modprobe ath11k_pci && sleep 5 && nmcli device wifi list'
+{{- end }}
+
+    set -g fish_greeting ""
+end
+
+function __tmux_session_switch
+    set result (tmux list-sessions -F '#S' 2>/dev/null | fzf --height 40% --layout reverse --prompt 'session: ' --print-query)
+    # result[1] = query typed, result[2] = selected existing session (if any)
+    set target ""
+    if test (count $result) -ge 2
+        set target $result[2]
+    else if test -n "$result[1]"
+        tmux new-session -d -s $result[1]
+        set target $result[1]
+    end
+
+    if test -n "$target"
+        if test -n "$TMUX"
+            tmux switch-client -t $target
+        else
+            tmux attach -t $target
+        end
+    end
+end
+
+function fish_user_key_bindings
+    # This binds Ctrl + F to accept the full suggestion in both modes
+    bind -M insert \cf accept-autosuggestion
+    bind -M default \cf accept-autosuggestion
+
+    # Space+T (vi normal mode): fuzzy tmux session switcher
+    bind -M default ' t' __tmux_session_switch
+
+    # Vi mode yank/paste with system clipboard (wayland)
+    bind -M visual y 'fish_clipboard_copy; commandline -f end-selection'
+    bind -M default p fish_clipboard_paste
+    bind -M insert \cv fish_clipboard_paste
+end
+
+function hw
+    set cwd (pwd)
+    set label (basename $cwd)
+    set ws_json (herdr workspace create --label $label --cwd $cwd --no-focus)
+    set ws_id (echo $ws_json | python3 -c "import sys,json; print(json.load(sys.stdin)['result']['workspace']['workspace_id'])")
+    set p1 (echo $ws_json | python3 -c "import sys,json; print(json.load(sys.stdin)['result']['root_pane']['pane_id'])")
+
+    # Split into 4 panes: left-top, left-bottom, right-top, right-bottom
+    set p2_json (herdr pane split $p1 --direction right --no-focus)
+    set p2 (echo $p2_json | python3 -c "import sys,json; print(json.load(sys.stdin)['result']['pane']['pane_id'])")
+    herdr pane split $p1 --direction down --no-focus > /dev/null
+    herdr pane split $p2 --direction down --no-focus > /dev/null
+
+    herdr workspace focus $ws_id
+    herdr
+end
+
+set -gx EDITOR nvim
+set -gx VISUAL nvim
+
+set -g CONDA_AUTO_ACTIVATE_BASE false
+
+set -gx FLYCTL_INSTALL "{{ .chezmoi.homeDir }}/.fly"
+fish_add_path "$FLYCTL_INSTALL/bin"
+
+# >>> conda initialize >>>
+if test -f "{{ .chezmoi.homeDir }}/miniconda3/etc/fish/conf.d/conda.fish"
+    source "{{ .chezmoi.homeDir }}/miniconda3/etc/fish/conf.d/conda.fish"
+else
+    set -x PATH {{ .chezmoi.homeDir }}/miniconda3/bin $PATH
+end
+# <<< conda initialize <<<
+
+{{- if eq .chezmoi.os "linux" }}
+
+# pnpm
+set -gx PNPM_HOME "{{ .chezmoi.homeDir }}/.local/share/pnpm"
+if not string match -q -- "$PNPM_HOME/bin" $PATH
+    set -gx PATH "$PNPM_HOME/bin" $PATH
+end
+# pnpm end
+{{- end }}

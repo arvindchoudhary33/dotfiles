@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+STATE_FILE=/tmp/night-mode-on
+
+if [[ -f "$STATE_FILE" ]]; then
+    pkill -x gammastep 2>/dev/null
+    sleep 0.1
+    DISPLAY=:1 xrandr --output eDP-1 --gamma 1:1:1 2>/dev/null
+    rm "$STATE_FILE"
+    notify-send -u low "Night Mode" "Off"
+else
+    pkill -x gammastep 2>/dev/null
+    DISPLAY=:1 gammastep -O 3500 &
+    touch "$STATE_FILE"
+    notify-send -u low "Night Mode" "On — 3500K"
+fi

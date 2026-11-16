@@ -1,0 +1,57 @@
+onboarding = false
+
+[theme]
+name = "gruvbox"
+auto_switch = false
+
+[ui]
+pane_borders = "auto"
+pane_outer_borders = false
+pane_gaps = false
+pane_scrollbars = false
+
+[keys]
+# Prefix — same as tmux
+prefix = "ctrl+space"
+
+# Pane navigation — vim-style like tmux
+focus_pane_left  = ["prefix+h", "ctrl+alt+h"]
+focus_pane_down  = ["prefix+j", "ctrl+alt+j"]
+focus_pane_up    = ["prefix+k", "ctrl+alt+k"]
+focus_pane_right = ["prefix+l", "ctrl+alt+l"]
+
+# Splits — prefix+v (right) and prefix+minus (down), same as tmux config
+split_vertical   = "prefix+v"
+split_horizontal = "prefix+minus"
+
+# Tabs (windows in tmux terms)
+new_tab      = "prefix+c"
+next_tab     = "prefix+n"
+switch_tab   = "prefix+1..9"
+
+# Session/workspace
+goto             = "prefix+s"
+navigate_workspace_up   = "k"
+navigate_workspace_down = "j"
+zoom             = "prefix+z"
+close_pane       = "prefix+x"
+
+# Copy mode — prefix+[ like tmux, vi keys inside
+copy_mode = "prefix+["
+
+# Detach
+detach         = "prefix+d"
+workspace_picker = "prefix+space"
+
+# Reload config (like tmux's prefix+r)
+[[keys.command]]
+key         = "prefix+r"
+type        = "shell"
+command     = "herdr server reload-config"
+description = "reload config"
+
+[[keys.command]]
+key         = "prefix+p"
+type        = "plugin_action"
+command     = "local.last-workspace.toggle"
+description = "last workspace"

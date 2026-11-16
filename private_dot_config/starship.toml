@@ -1,0 +1,51 @@
+format = """
+$username\
+$directory\
+$git_branch\
+$git_status\
+$nodejs\
+$time\
+$line_break\
+$character"""
+
+# THEME:START
+
+[username]
+style_user = "fg:#fe8019 bold"
+format = "🧸 [$user]($style) "
+show_always = true
+
+[git_branch]
+symbol = " "
+style = "fg:#fabd2f"
+format = "on [$symbol$branch]($style) "
+
+[git_status]
+style = "fg:#fb4934"
+
+[nodejs]
+symbol = " "
+style = "fg:#83a598"
+format = "via [$symbol($version)]($style) "
+
+[time]
+disabled = false
+time_format = "%R"
+style = "fg:#928374"
+format = "at [$time]($style) "
+
+[line_break]
+disabled = false
+
+[character]
+success_symbol = "[» ](bold #b8bb26)"
+error_symbol = "[» ](bold #fb4934)"
+
+vimcmd_symbol = "[» ](bold #fe8019)"
+vimcmd_replace_one_symbol = "[» ](bold #fb4934)"
+vimcmd_replace_symbol = "[» ](bold #fb4934)"
+vimcmd_visual_symbol = "[» ](bold #fabd2f)"
+
+[os]
+disabled = true
+# THEME:END
