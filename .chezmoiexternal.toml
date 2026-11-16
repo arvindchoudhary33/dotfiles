@@ -1,0 +1,5 @@
+# tmux plugin manager (required by .tmux.conf: run '~/.tmux/plugins/tpm/tpm')
+[".tmux/plugins/tpm"]
+    type = "git-repo"
+    url = "https://github.com/tmux-plugins/tpm"
+    refreshPeriod = "168h"
