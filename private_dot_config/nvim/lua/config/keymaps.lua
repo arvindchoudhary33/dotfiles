@@ -40,6 +40,9 @@ vim.keymap.set("n", "<leader>tt", function()
 	elseif colorscheme == "cyberdream" then
 		require("cyberdream").setup({ transparent = transparency_enabled })
 		vim.cmd.colorscheme("cyberdream")
+	elseif vim.startswith(colorscheme, "kanagawa") then
+		require("kanagawa").setup({ transparent = transparency_enabled })
+		vim.cmd.colorscheme(colorscheme)
 	elseif vim.startswith(colorscheme, "rose-pine") then
 		local rp = require("rose-pine")
 		rp.setup(

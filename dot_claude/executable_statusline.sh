@@ -20,11 +20,11 @@ human() { # 220118 -> 220k, 1000000 -> 1M
 }
 
 rgb() { printf '\033[38;2;%d;%d;%dm' "0x${1:1:2}" "0x${1:3:2}" "0x${1:5:2}"; }
-R=$'\033[0m'; MUTED=$(rgb "#6e6a86"); TEXT=$(rgb "#e0def4"); IRIS=$(rgb "#c4a7e7"); FOAM=$(rgb "#9ccfd8")
+R=$'\033[0m'; MUTED=$(rgb "#737c73"); TEXT=$(rgb "#c5c9c5"); IRIS=$(rgb "#a292a3"); FOAM=$(rgb "#8ba4b0")
 
-if   (( pct >= 75 )); then C=$(rgb "#eb6f92")   # love: clear soon
-elif (( pct >= 50 )); then C=$(rgb "#f6c177")   # gold: getting full
-else                       C=$(rgb "#31748f"); fi # pine: fine
+if   (( pct >= 75 )); then C=$(rgb "#c4746e")   # dragonRed: clear soon
+elif (( pct >= 50 )); then C=$(rgb "#c4b28a")   # dragonYellow: getting full
+else                       C=$(rgb "#87a987"); fi # dragonGreen: fine
 
 width=10; filled=$(( (pct * width + 50) / 100 )); (( filled > width )) && filled=$width
 full=$(printf '%*s' "$filled" ''); empty=$(printf '%*s' $(( width - filled )) '')

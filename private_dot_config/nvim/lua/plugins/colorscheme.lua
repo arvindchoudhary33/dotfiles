@@ -40,6 +40,16 @@ return {
 		end,
 	},
 	{
+		"rebelot/kanagawa.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {
+			transparent = false,
+			theme = "dragon",
+			background = { dark = "dragon", light = "lotus" },
+		},
+	},
+	{
 		"rose-pine/neovim",
 		name = "rose-pine",
 		lazy = false,
