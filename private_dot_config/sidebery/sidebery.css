@@ -1,0 +1,33 @@
+/* Sidebery: Kanagawa Dragon. Paste into Sidebery > Settings > Styles editor > Sidebar (not deployed by chezmoi: Sidebery keeps this in extension storage). */
+#root {
+  --general-border-radius: 0px !important;
+  --frame-bg: #181616 !important;
+  --frame-fg: #c5c9c5 !important;
+  --frame-el-overlay-hover-bg: #282727 !important;
+  --frame-el-overlay-clicked-bg: #393836 !important;
+  --frame-el-overlay-selected-bg: #393836 !important;
+  --frame-el-overlay-selected-border: #a292a3 !important;
+  --frame-scrollbar-color: #393836 !important;
+  --toolbar-bg: #1D1C19 !important;
+  --toolbar-fg: #c5c9c5 !important;
+  --toolbar-el-overlay-hover-bg: #282727 !important;
+  --toolbar-el-overlay-clicked-bg: #393836 !important;
+  --toolbar-el-overlay-active-bg: #393836 !important;
+  --toolbar-el-overlay-selected-bg: #393836 !important;
+  --toolbar-el-overlay-selected-border: #a292a3 !important;
+  --toolbar-scrollbar-color: #393836 !important;
+  --active-el-bg: #282727 !important;
+  --active-el-fg: #c5c9c5 !important;
+  --active-el-shadow: inset 2px 0 0 0 #a292a3 !important;
+  --active-el-overlay-hover-bg: #393836 !important;
+  --popup-bg: #1D1C19 !important;
+  --popup-fg: #c5c9c5 !important;
+  --popup-shadow: 0 0 0 1px #393836 !important;
+  --accent: #a292a3 !important;
+  --status-active: #8ba4b0 !important;
+  --status-notice: #c4b28a !important;
+  --status-ok: #87a987 !important;
+  --status-err: #c4746e !important;
+  --border: #1D1C19 !important;
+}
+#root * { border-radius: 0 !important; }
